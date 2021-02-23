@@ -1,7 +1,9 @@
 const db = require('../dataBase');
 
 let conn;
-async function schemaAdminAcces() {
+
+/* definición de esquema */
+const schemaAdmin = async function schemaAdminAcces() {
   try {
     conn = await db.connect();
     /* definiendo esquema de acceso */
@@ -22,11 +24,10 @@ async function schemaAdminAcces() {
   } catch (e) {
     return null;
   }
-}
+};
 
 async function idObjGenerate() {
-  const idObj = new conn.Types.ObjectId();
-  /* conn.connection.close(); */
+  const idObj = db.idObjGenerate();
   return idObj;
 }
 
@@ -34,6 +35,6 @@ function closeConection() {
   conn.connection.close();
 }
 
-module.exports.schemaAdminAcces = schemaAdminAcces;
+module.exports.schemaAdminAcces = schemaAdmin;
 module.exports.idObjGenerate = idObjGenerate;
 module.exports.closeConection = closeConection;

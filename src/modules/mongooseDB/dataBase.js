@@ -1,11 +1,18 @@
 const mongoose = require('mongoose');
 
-function ObjDbConection() {
+/* function ObjDbConection() {
   this.userName = 'root_store';
   this.userPwd = 'a9902300!#';
   this.databaseName = 'store_copece';
   this.url = 'mongodb://104.192.4.239:27017';
-}
+} */
+
+const ObjDbConection = {
+  userName: 'root_store',
+  userPwd: 'a9902300!#',
+  databaseName: 'store_copece',
+  url: 'mongodb://104.192.4.239:27017',
+};
 
 async function testConnection(url, { userName, userPwd, databaseName }) {
   try {
@@ -26,7 +33,7 @@ async function testConnection(url, { userName, userPwd, databaseName }) {
 
 async function connect() {
   try {
-    const infoDbConnect = new ObjDbConection();
+    const infoDbConnect = JSON.parse(JSON.stringify(ObjDbConection));
     const db = await mongoose.connect(infoDbConnect.url, {
       dbName: infoDbConnect.databaseName,
       useNewUrlParser: true,
@@ -43,5 +50,11 @@ async function connect() {
   }
 }
 
+async function idObjGenerate() {
+  const idObj = mongoose.Types.ObjectId();
+  return idObj;
+}
+
 module.exports.testConnection = testConnection;
 module.exports.connect = connect;
+module.exports.idObjGenerate = idObjGenerate;
