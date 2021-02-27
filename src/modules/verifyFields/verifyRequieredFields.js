@@ -20,7 +20,7 @@ function validarPassword(myPwd) {
 function validarFullName(objAdmin) {
   /* El nombre no debe estar en blanco, los apellidos pueden ser iguales */
   /* solo aceptará simbolos de - ü */
-  const regex = /^[a-zA-Z\s-ü]+$/;
+  const regex = /^[a-zA-Z\s-üñÑ]+$/;
   let resp = '';
   let valid = regex.test(objAdmin.nombre);
   if (valid === true) {
@@ -48,8 +48,43 @@ function validarTelefono(numTelefonico) {
   return resp;
 }
 
+function validarStatus(estado) {
+  /* el estado solo puede ser pendiente - activo - inactivo */
+  let band = false;
+  switch (estado) {
+    case 'pendiente':
+      band = true;
+      break;
+    case 'activo':
+      band = true;
+      break;
+    case 'suspendido':
+      band = true;
+      break;
+    default:
+      band = false;
+      break;
+  }
+  return band;
+}
+
+function validarId(myId) {
+  const regex = /^[a-fA-F0-9]{24}$/;
+  const resp = regex.test(myId);
+  return resp;
+}
+
+function validarRutas(ruta) {
+  const regex = /^[a-zA-Z0-9-]+$/;
+  const resp = regex.test(ruta);
+  return resp;
+}
+
 module.exports.validarEmail = validarEmail;
 module.exports.validarPassword = validarPassword;
 module.exports.validarFullName = validarFullName;
 module.exports.validarTelefono = validarTelefono;
 module.exports.validarDomicilio = validarDomicilio;
+module.exports.validarStatus = validarStatus;
+module.exports.validarId = validarId;
+module.exports.validarRutas = validarRutas;

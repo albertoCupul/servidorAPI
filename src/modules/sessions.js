@@ -4,15 +4,12 @@ const saltRounds = 10;
 
 function encryptPwd(password) {
   const hashPwd = bcrypt.hash(password, saltRounds);
-  hashPwd.then((hash) => hash);
+  return hashPwd;
 }
 
-/* function unEncryptPwd(password, hashPwd) {
-   console.log('esto se esta mandando   '+password+'    '+hashPwd);
-   bcrypt.compare(password, hashPwd).then(function(result) {
-     console.log(`son iguales ${password} y el hash ${hashPwd}`);
-   })
-} */
+function unEncryptPwd(password, hashPwd) {
+  return bcrypt.compare(password, hashPwd);
+}
 
 module.exports.encryptPwd = encryptPwd;
-/* module.exports.unEncryptPwd = unEncryptPwd; */
+module.exports.unEncryptPwd = unEncryptPwd;
