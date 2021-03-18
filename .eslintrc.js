@@ -17,5 +17,6 @@ module.exports = {
   rules: {
     strict: 0,
     'eslint no-underscore-dangle': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

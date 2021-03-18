@@ -1,7 +1,9 @@
 const express = require('express');
 
 const mongoose = require('mongoose');
-const db = require('./modules/mongooseDB/models/dbConection');
+const db = require('./modules/adminComplement/mongooseDB/models/dbConection');
+
+mongoose.set('useFindAndModify', false);
 
 const dataDB = { ...db.ObjDbConection };
 
@@ -14,6 +16,9 @@ const port = 3000;
 /* const sessions = require('./modules/sessions'); */
 
 const adminRoute = require('./routes/adminRoute');
+const clientRoute = require('./routes/clientRoute');
+const categoryRoute = require('./routes/categoryRoute');
+const productRoute = require('./routes/productRoute');
 
 /* ejecutando modulo express */
 
@@ -24,6 +29,9 @@ const app = express();
 app.use(express.json());
 
 app.use('/administrators', adminRoute);
+app.use('/client', clientRoute);
+app.use('/category', categoryRoute);
+app.use('/product', productRoute);
 
 /* rutas para manejo de usuarios administradores */
 try {

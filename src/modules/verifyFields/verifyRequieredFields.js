@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 function validarDomicilio(domicilio) {
   const regex = /^[a-zA-Z0-9.#-\s]+$/;
   const resp = regex.test(domicilio);
@@ -80,6 +82,85 @@ function validarRutas(ruta) {
   return resp;
 }
 
+function validarFechaNacimiento(date) {
+  if (date) {
+    /* validando primero el formato yyyy-mm-dd */
+    const regexFormat = /^\d{4}-\d{1,2}-\d{1,2}$/;
+    let validFormat = regexFormat.test(date);
+    if (validFormat) {
+      /* validando fecha real, si no es real retorna NaN */
+      const dateSent = moment(new Date(date));
+      const diff = moment().diff(moment(dateSent), 'years');
+      if (diff) {
+        if (diff > 17) {
+          validFormat = 'OK';
+        } else {
+          validFormat = 'the user must be at least 18 years old';
+        }
+      } else {
+        validFormat = 'The date cannot be greater than the current one';
+      }
+    } else {
+      validFormat = 'Incorrect date format';
+    }
+    return validFormat;
+  }
+  /* como viene vacío y no es requrido obligatoriamente */
+  return 'OK';
+}
+
+function validarRFC(rfc) {
+  /* persona fisica 13 caracteres: 4 letras, 6 número, 3 homoclabe */
+  /* persona moral 12 caracteres: 3 letras, 6 número, 3 homoclabe */
+  /* por lo que primero hay que saber si tiene 12 o 13 caracteres */
+  if (rfc) {
+    let response = null;
+    let band = false;
+    if (rfc.length === 13) {
+      band = true;
+      const regex = /^[A-Za-z]{4}\d{6}[a-zA-Z\d]{3}$/;
+      const resp = regex.test(rfc);
+      if (resp) {
+        response = 'OK';
+      } else {
+        response = 'Invalid physical person RFC format';
+      }
+    }
+    if (rfc.length === 12) {
+      band = true;
+      const regex = /^[A-Za-z]{3}\d{6}[a-zA-Z\d]{3}$/;
+      const resp = regex.test(rfc);
+      if (resp) {
+        response = 'OK';
+      } else {
+        response = 'Invalid moral person RFC format';
+      }
+    }
+    /* si no tiene 12 o 13 de longitud */
+    if (band === false) {
+      response = 'invalid RFC length';
+    }
+    return response;
+  } /* como viene vacío y no es requrido obligatoriamente */
+  return 'OK';
+}
+
+function validarDomicilioUsuario(domicilio) {
+  if (domicilio) {
+    let response = null;
+    const regex = /^[a-zA-Z0-9.#-\s]+$/;
+    const resp = regex.test(domicilio);
+    if (resp) {
+      response = 'OK';
+    } else {
+      response = 'Invalid address format';
+    }
+    return response;
+  }
+  /* como viene vacío y no es requrido obligatoriamente */
+  return 'OK';
+}
+
 module.exports.validarEmail = validarEmail;
 module.exports.validarPassword = validarPassword;
 module.exports.validarFullName = validarFullName;
@@ -88,3 +169,6 @@ module.exports.validarDomicilio = validarDomicilio;
 module.exports.validarStatus = validarStatus;
 module.exports.validarId = validarId;
 module.exports.validarRutas = validarRutas;
+module.exports.validarFechaNacimiento = validarFechaNacimiento;
+module.exports.validarRFC = validarRFC;
+module.exports.validarDomicilioUsuario = validarDomicilioUsuario;
